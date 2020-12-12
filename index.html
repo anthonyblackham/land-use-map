@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/EleutheraLandUse_1.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[24.603261477745022,-76.3749796483737],[24.79580530446917,-76.01770388100779]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_GoogleSatelliteHybrid_0');
+        map.getPane('pane_GoogleSatelliteHybrid_0').style.zIndex = 400;
+        var layer_GoogleSatelliteHybrid_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleSatelliteHybrid_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_GoogleSatelliteHybrid_0;
+        map.addLayer(layer_GoogleSatelliteHybrid_0);
+        function pop_EleutheraLandUse_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">fid</th>\
+                        <td>' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">abbr</th>\
+                        <td>' + (feature.properties['abbr'] !== null ? autolinker.link(feature.properties['abbr'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Description</th>\
+                        <td>' + (feature.properties['Description'] !== null ? autolinker.link(feature.properties['Description'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_EleutheraLandUse_1_0(feature) {
+            switch(String(feature.properties['abbr'])) {
+                case '0':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(221,214,71,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '1':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(189,231,71,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '1 & 4':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(186,30,237,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '10':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(225,195,74,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '10a':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(85,34,226,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '10L':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(88,115,219,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '11':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(240,97,118,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '11LL':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(87,217,178,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '13':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(136,81,208,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '15':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(66,121,221,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '1a':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(116,225,156,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '1b':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(47,228,231,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '1b & 2c':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(214,177,112,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '1b & 3a':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(120,123,207,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '2':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(25,174,203,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '2 & 4':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(109,219,31,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '2 & 4a':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(204,89,160,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '2/4':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(66,148,224,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '2a':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,122,38,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '2b':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(67,209,15,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '2c':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(201,103,58,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '3a':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(83,180,228,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '3b':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(194,212,51,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '3b(Rock)':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(78,211,191,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '4':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(236,55,197,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '4a':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(213,93,93,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '4a & 5a':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(48,217,141,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '5':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(122,230,110,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '5 and 2':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(139,34,214,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '5a':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(215,106,157,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '6':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(67,209,98,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '6 & 9':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(114,101,211,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '7':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(226,67,216,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '8':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(135,204,38,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '9':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(206,137,123,0.5)',
+                interactive: true,
+            }
+                    break;
+                case '9L':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(207,79,221,0.5)',
+                interactive: true,
+            }
+                    break;
+                case 'Rock':
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(215,118,147,0.5)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_EleutheraLandUse_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.5)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(100,210,105,0.5)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_EleutheraLandUse_1');
+        map.getPane('pane_EleutheraLandUse_1').style.zIndex = 401;
+        map.getPane('pane_EleutheraLandUse_1').style['mix-blend-mode'] = 'normal';
+        var layer_EleutheraLandUse_1 = new L.geoJson(json_EleutheraLandUse_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_EleutheraLandUse_1',
+            layerName: 'layer_EleutheraLandUse_1',
+            pane: 'pane_EleutheraLandUse_1',
+            onEachFeature: pop_EleutheraLandUse_1,
+            style: style_EleutheraLandUse_1_0,
+        });
+        bounds_group.addLayer(layer_EleutheraLandUse_1);
+        map.addLayer(layer_EleutheraLandUse_1);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'Eleuthera Land Use<br /><table><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_00.png" /></td><td>0</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_11.png" /></td><td>1</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_142.png" /></td><td>1 & 4</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_103.png" /></td><td>10</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_10a4.png" /></td><td>10a</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_10L5.png" /></td><td>10L</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_116.png" /></td><td>11</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_11LL7.png" /></td><td>11LL</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_138.png" /></td><td>13</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_159.png" /></td><td>15</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_1a10.png" /></td><td>1a</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_1b11.png" /></td><td>1b</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_1b2c12.png" /></td><td>1b & 2c</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_1b3a13.png" /></td><td>1b & 3a</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_214.png" /></td><td>2</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_2415.png" /></td><td>2 & 4</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_24a16.png" /></td><td>2 & 4a</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_2417.png" /></td><td>2/4</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_2a18.png" /></td><td>2a</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_2b19.png" /></td><td>2b</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_2c20.png" /></td><td>2c</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_3a21.png" /></td><td>3a</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_3b22.png" /></td><td>3b</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_3bRock23.png" /></td><td>3b(Rock)</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_424.png" /></td><td>4</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_4a25.png" /></td><td>4a</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_4a5a26.png" /></td><td>4a & 5a</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_527.png" /></td><td>5</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_5and228.png" /></td><td>5 and 2</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_5a29.png" /></td><td>5a</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_630.png" /></td><td>6</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_6931.png" /></td><td>6 & 9</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_732.png" /></td><td>7</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_833.png" /></td><td>8</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_934.png" /></td><td>9</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_9L35.png" /></td><td>9L</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_Rock36.png" /></td><td>Rock</td></tr><tr><td style="text-align: center;"><img src="legend/EleutheraLandUse_1_37.png" /></td><td></td></tr></table>': layer_EleutheraLandUse_1,"Google Satellite Hybrid": layer_GoogleSatelliteHybrid_0,}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
